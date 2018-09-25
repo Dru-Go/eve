@@ -1,0 +1,118 @@
+<div>
+    <h1><span class="">&lt;</span>/<span class="">&gt;</span> <span class="">Users</span>
+    </h1>
+</div>
+<link rel="stylesheet" href="public/css/styles.css">
+<link rel="stylesheet" href="public/css/materialize.css" />
+<link rel="stylesheet" href="public/css/material/material-icons.css" />
+<link rel="stylesheet" href="public/css/style.css" />
+<link rel="stylesheet" href="public/css/main.css">
+
+
+
+<table class="container">
+    <button><a href="/list" class="list">All</a></button>
+    <button><a href="/checked" class="list" onclick="check3">Checked Users</a></button>
+    <button><a href="/Checked" class="list ">UnChecked Users</a></button>
+    <input type="search" placeholder="Enter Name" id="search" class="search">
+
+    <h1>{{.count}}</h1>
+    <thead>
+        <tr>
+            <th>
+                <h1>Name</h1>
+            </th>
+            <th>
+                <h1>Email</h1>
+            </th>
+            <th>
+                <h1>Phone Number</h1>
+            </th>
+            <th>
+                <h1>Role</h1>
+            </th>
+            <th>
+                <h1>Checked</h1>
+            </th>
+            <th>
+                <h1>Image</h1>
+            </th>
+            <th>
+                <h1>Mail</h1>
+            </th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+        {{range .users}}
+        <tr>
+            <td class="contan">{{.Name}}</td>
+            <td class="email">{{.Email}}</td>
+            <td>{{.PhoneNo}}</td>
+            <td>{{.Role}}</td>
+            <td > <a href="#"class="check" id="check" onclick="Check({{.Email}})"></a> </td>
+            <td><a href="#" id="view" class="">View</a></td>
+            <td><a href="#" class="" id="send">Send</a></td>
+        </tr>
+        {{end}}
+    </tbody>
+</table>
+
+
+<!--  Scripts-->
+<script src="public/js/qrcodejs/qrcode.min.js"></script>
+<script src="public/js/jquery-3.3.1.min.js"></script>
+<script src="public/js/materialize.js"></script>
+<script src="public/js/init.js"></script>
+<script>
+ var check = document.getElementsByClassName('check')
+ var email = document.getElementsByClassName("email");
+
+    
+    check.className = 'white'
+    console.log(check.length)
+    console.log(check2(email.item(0).textContent))
+    console.log(check.item(0).textContent)
+    check.item(0).textContent = 'Checked'
+
+
+    for (let ii = 0; ii < check.length; ii++) {
+        check2(email.item(ii).textContent,ii)
+    }
+
+    function Check(email) {
+        console.log(email)
+        // console.log(check.textContent);
+        var xhr = new XMLHttpRequest();
+        xhr.open("PUT", "/api/present/" + email);
+        xhr.send();
+        check.item(this).textContent = "Checked"
+    }
+    
+
+
+ 
+
+    function check2(email,len) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/ischecked/" + email);
+        xhr.send()
+        xhr.addEventListener("readystatechange", function () {
+            if (xhr.readyState === 4) {
+                var item = xhr.responseText;
+                console.log(item);
+                if (item == "true") {
+                    console.log(len)
+                    check.item(len).textContent = 'Checked'
+                    return true
+                } else {
+                    check.item(len).textContent = 'Check'
+                    return false
+                }
+            }
+        });
+    }
+
+
+</script>
