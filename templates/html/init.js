@@ -46,6 +46,7 @@ email.addEventListener("input", function() {
     }
   });
 });
+window
 
 
 

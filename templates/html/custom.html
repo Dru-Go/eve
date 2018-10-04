@@ -45,7 +45,7 @@
             <!--CONTENT OF FORM-->
             <form method="POST" action="/api/adduser" id="form_create">
 
-                <!--Name Feild-->
+                <!--Name Field-->
                 <div class="row">
                     <div class="input-field col s12">
                         <i class="material-icons prefix">account_circle</i>
@@ -53,7 +53,15 @@
                         <label for="icon_prefix">Full Name</label>
                     </div>
                 </div>
-                    <p class="form-field-err" id="username-err" class="alert-danger"></p>
+
+                <!--LastName Field-->
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input id="LastName" type="text" autocomplete="false" name="LastName" required class="validate name">
+                        <label for="LastName">Last Name</label>
+                    </div>
+                </div>
 
                 <!--Email Feild-->
                 <div class="row">
@@ -70,7 +78,7 @@
                     <div class="input-field col s12">
                         <i class="material-icons prefix">phone</i>
                         <input id="phone-no" type="number" autocomplete="false" name="phone-no"  class="validate">
-                        <label for="number">PhoneNumber</label>
+                        <label for="phone-no">PhoneNumber</label>
                     </div>
                 </div>
                     <p class="form-field-err" id="phone-err" class="alert-danger"></p>
@@ -80,7 +88,7 @@
                     <div class="input-field col s12">
                         <i class="material-icons prefix">Age</i>
                         <input id="age" type="number" name="age" autocomplete="false" required class="validate">
-                        <label for="number">Age</label>
+                        <label for="age">Age</label>
                     </div>
                 </div>
                 <!--Roll Feild-->
@@ -92,7 +100,7 @@
                             <option value="m" >Male</option>
                             <option value="f">Female</option>
                         </select>
-                        <label>Sex</label>
+                        <label for="sex">Sex</label>
                     </div>
                 </div>
 
@@ -105,7 +113,7 @@
                             <option value="Organizing Commitee<">Organizing Commitee</option>
                             <option value="Speaker">Speaker</option>
                         </select>
-                        <label>Select Role</label>
+                        <label for="role">Select Role</label>
                     </div>
                 </div>
 

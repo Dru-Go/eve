@@ -35,6 +35,7 @@ func main() {
 	app.Post("/add", AddUsers)
 	app.Get("/users", Getusers)
 	app.Get("/guests", GetGuests)
+	app.Get("/dashboard", report)
 
 	app.Get("/checked", GetChecked)
 	app.Get("/voluntiers", GetVoluntiers)
@@ -71,6 +72,7 @@ func AddUsers(ctx iris.Context) {
 	// Get Context info
 
 	name := ctx.FormValue("icon_prefix")
+	last := ctx.FormValue("LastName")
 	email := ctx.FormValue("email")
 	phone := ctx.FormValue("phone-no")
 	sex := ctx.FormValue("sex")
@@ -78,12 +80,13 @@ func AddUsers(ctx iris.Context) {
 	role := ctx.FormValue("role")
 	// parse and validate the result
 	u := new(models.User)
+
 	if name == "" || email == "" || phone == "" || role == "" {
 		ctx.Write([]byte("Error can not parse Empty data"))
 		ctx.ViewData("errors", "Error can not parse Empty data")
 		return
 	}
-	if err := u.ValidateName(name); err != nil {
+	if err := u.ValidateName(name + " " + last); err != nil {
 		ctx.Write([]byte(name))
 		ctx.Write([]byte("Error: " + err.Error()))
 		ctx.ViewData("errors", "Error: Name"+name+"already taken")
@@ -110,13 +113,13 @@ func AddUsers(ctx iris.Context) {
 	}
 
 	// insert the data
-	user := u.Set(name, email, phone, role, ages, sex)
+	user := u.Set(name+" "+last, email, phone, role, ages, sex)
 	user.Save()
 
 	ctx.View("another.html")
 }
 
-func profileByUsername(ctx iris.Context) {
+func GetByUsername(ctx iris.Context) {
 	name := ctx.Params().Get("name")
 
 	// .Params are used to get dynamic path parameters.
@@ -126,12 +129,10 @@ func profileByUsername(ctx iris.Context) {
 	users := u.GetName(name)
 	stst := s.Set(users, len(users))
 	ctx.ViewData("usernames_stats", stst)
-	// renders "./views/user/profile.html"
-	// with {{ .Username }} equals to the username dynamic path parameter.
 	ctx.View("user/profile.html")
 }
 
-func profileByEmail(ctx iris.Context) {
+func GetByEmail(ctx iris.Context) {
 	name := ctx.Params().Get("mail")
 
 	// .Params are used to get dynamic path parameters.
@@ -139,14 +140,8 @@ func profileByEmail(ctx iris.Context) {
 
 	user := u.GetEmail(name)
 	ctx.ViewData("useremail", user)
-	// renders "./views/user/profile.html"
-	// with {{ .Username }} equals to the username dynamic path parameter.
-	ctx.View("user/profile.html")
-}
 
-func add(ctx iris.Context) {
-	// extract user from the user form
-	// adds the user to database
+	ctx.View("user/profile.html")
 }
 
 func GetGuests(ctx iris.Context) {

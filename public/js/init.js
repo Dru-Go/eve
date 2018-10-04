@@ -94,6 +94,8 @@ var qrcode = new QRCode(document.getElementById("qrcode"), {
 
 function makeCode() {
   var fullname = document.getElementById("icon_prefix");
+  var lastname = document.getElementById("LastName");
+
   var email = document.getElementById("email");
   var phone = document.getElementById("phone-no");
   var role = document.getElementById("role");
@@ -156,6 +158,16 @@ $("#icon_prefix")
     makeCode();
   })
   .on("keydown", function(e) {
+    if (e.keyCode == 13) {
+      makeCode();
+    }
+  });
+
+$("#LastName")
+  .on("blur", function () {
+    makeCode();
+  })
+  .on("keydown", function (e) {
     if (e.keyCode == 13) {
       makeCode();
     }

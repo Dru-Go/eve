@@ -25,6 +25,21 @@ func PresentApi(ctx iris.Context) {
 	ctx.Write([]byte("Not Found"))
 }
 
+func Tick(ctx iris.Context) {
+	id := ctx.Params().Get("id")
+
+	use := new(models.User)
+	u := use.GetID(id)
+	if u.Exists(id) {
+		if u.CheckedIn == true {
+			return
+		}
+		u.Tick()
+		return
+	}
+	ctx.Write([]byte("Not Found"))
+}
+
 func Checklistapi(ctx iris.Context) {
 	// Get users from the database
 	var s = new(models.Stats)
@@ -35,4 +50,9 @@ func Checklistapi(ctx iris.Context) {
 	}
 	// display the ouput
 	ctx.JSON(stats)
+}
+
+func AddApi(ctx iris.Context) {
+	var user models.User
+	ctx.ReadJSON(&s)
 }
